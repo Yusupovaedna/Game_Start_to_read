@@ -16,4 +16,4 @@ In short, the main idea of the game is that the child should choose letters that
 Words can be changed by users.
 
 # Repo
-https://gitlab.com/Edna_/try-to-read-with-a-fish
+https://gitlab.com/Edna_/start-to-read-in-english
