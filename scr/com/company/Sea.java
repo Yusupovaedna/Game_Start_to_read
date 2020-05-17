@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 public class Sea extends JPanel implements  ActionListener {
     Timer time = new Timer(20, this);
     Image img = new ImageIcon("scr/resources/sea.png").getImage();
+    Image area = new ImageIcon("scr/resources/area.png").getImage();
     Player f= new Player();
 
 
@@ -19,6 +20,7 @@ public class Sea extends JPanel implements  ActionListener {
         g.drawImage(img, f.sea1, 0, null);
         g.drawImage(img, f.sea2, 0, null);
         g.drawImage(f.fish,f.x,f.y,null);
+        g.drawImage(area, 450, 590, null);
     }
 
     public Sea() {

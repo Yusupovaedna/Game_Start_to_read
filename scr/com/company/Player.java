@@ -8,8 +8,8 @@ import java.awt.image.ImageProducer;
 
 public class Player  {
     public static final int MAX_V =30;
-    public static final int MAX_TOP =80;
-    public static final int MAX_BOTTOM =480;
+    public static final int MAX_TOP =0;
+    public static final int MAX_BOTTOM =360;
 
 
     Image fish = new ImageIcon("scr/resources/straight2.png").getImage();
