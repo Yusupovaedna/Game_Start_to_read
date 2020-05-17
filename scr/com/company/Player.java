@@ -8,8 +8,8 @@ import java.awt.image.ImageProducer;
 
 public class Player  {
     public static final int MAX_V =30;
-    public static final int MAX_TOP =-10;
-    public static final int MAX_BOTTOM =400;
+    public static final int MAX_TOP =80;
+    public static final int MAX_BOTTOM =480;
 
 
     Image fish = new ImageIcon("scr/resources/straight2.png").getImage();
@@ -22,7 +22,7 @@ public class Player  {
     int dy=0;
 
     int  sea1=0;
-    int sea2=1500;
+    int sea2=1490;
 
     public void move(){
         s+=v;
