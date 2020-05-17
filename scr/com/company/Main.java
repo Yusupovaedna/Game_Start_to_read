@@ -6,7 +6,9 @@ public class Main {
         JFrame f = new JFrame ("Start to read");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(1100,600);
+        f.add(new Sea());
         f.setVisible(true);
+
 
     }
 }
