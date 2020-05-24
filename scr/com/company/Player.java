@@ -3,16 +3,18 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
+
 
 public class Player  {
-    public static final int MAX_V =30;
+    public static final int MAX_V =4;
     public static final int MAX_TOP =0;
-    public static final int MAX_BOTTOM =360;
+    public static final int MAX_BOTTOM =400;
 
+    public Rectangle getRect (){
+        return new Rectangle(x,y,300, 200/3);
+    }
 
-    Image fish = new ImageIcon("scr/resources/straight2.png").getImage();
+    Image fish = new ImageIcon("scr/resources/straight2.png").getImage(); //player img
     int v=0;
     int dv=0;
     int s=0;
@@ -24,11 +26,11 @@ public class Player  {
     int  sea1=0;
     int sea2=1490;
 
-    public void move(){
+    public void move(){  //moving of the player
         s+=v;
         v+=dv;
         if (v>=MAX_V) v=MAX_V;
-        if (v<=0) v=0;
+        if (v<=3) v=3;
         y-=dy;
         if(y <= MAX_TOP)  y=MAX_TOP;
         if(y >= MAX_BOTTOM) y=MAX_BOTTOM;
@@ -41,7 +43,7 @@ public class Player  {
         }
     }
 
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e){  //reactions on pressed but
         int key = e.getKeyCode();
         switch (key){
             case(KeyEvent.VK_RIGHT): dv=1;break;
@@ -50,7 +52,7 @@ public class Player  {
             case(KeyEvent.VK_UP): dy=5;break;
             case(KeyEvent.VK_DOWN): dy=-5;break;
         }}
-    public void keyReleased(KeyEvent e){
+    public void keyReleased(KeyEvent e){ //reactions on released but
         int key = e.getKeyCode();
         switch (key){
             case(KeyEvent.VK_RIGHT  ): dv=0;break;
