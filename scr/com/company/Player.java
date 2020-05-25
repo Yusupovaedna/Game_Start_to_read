@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 
 public class Player  {
-    public static final int MAX_V =4;
+    public static final int MAX_V =9;
     public static final int MAX_TOP =0;
     public static final int MAX_BOTTOM =400;
 
