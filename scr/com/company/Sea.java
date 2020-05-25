@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
+
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,12 +34,13 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
 
 
-    public Sea() throws IOException { // constructor
+    public Sea() throws IOException, FontFormatException { // constructor
         time.start();
         Circlemaker.start();
         addKeyListener(new myKeyAdapter());
         setFocusable(true);
     }
+    Color darkblue = new Color(00, 00, 33);
 
     public void paint(Graphics g) {
         g = (Graphics2D) g;
@@ -52,10 +55,13 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
             if (k.x >=2400 |k.x<=-100  ) i.remove();
             else {
                 Graphics2D g2 = (Graphics2D)g;
-                Font font = new Font("Serif", Font.PLAIN, 96);
+
+                Font font = new Font("Arial", Font.BOLD, 96);
                 g2.setFont(font);
+
+                g2.setColor(darkblue);
                 g.drawImage(k.img, k.x, k.y, null);
-                g2.drawString(k.letter, k.x+50, k.y+100);
+                g2.drawString(k.letter, k.x+45, k.y+110);
 
             }
         }}
@@ -83,17 +89,17 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         testCollisionWithCircles();
     }
 
-    private int testCollisionWithCircles() {
+    private void testCollisionWithCircles() {
         Iterator<Circle> i = circles.iterator();
         while(i.hasNext()){
             Circle c= i.next();
             if(f.getRect().intersects(c.getRect())){
                 i.remove();
-                return 1;
             }
+            if (f.x+200 > c.x) i.remove();
 
         }
-        return 0;
+
     }
     int r=0;
 
@@ -109,11 +115,11 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
     //    String let = word.substring(r, r+1);
     String word = Text();
-    char[] chars = word.replaceAll("[\\p{P}]","").toCharArray();
+    char[] chars = word.replaceAll("[\\p{P}\\p{Blank} ]","").toCharArray();
 
     public void run() {   //circle generator
 
-        while(word.length() > r) {
+        while(word.length() > r+1) {
             try {Random rand  =new Random();
                 char k = chars[r];
                 int b = ((int) k)+ 3;
@@ -144,8 +150,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
                 }
 
 
-                if (testCollisionWithCircles()==0) Thread.sleep(10000);
-                else Thread.sleep(0);
+               Thread.sleep(6000);
                 r++;
 
             } catch (InterruptedException e) {
