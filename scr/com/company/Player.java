@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 
 public class Player  {
-    public static final int MAX_V =9;
+    public static final int MAX_V =10;
     public static final int MAX_TOP =0;
     public static final int MAX_BOTTOM =400;
 
@@ -14,7 +14,10 @@ public class Player  {
         return new Rectangle(x,y,300, 200/3);
     }
 
-    Image fish = new ImageIcon("scr/resources/straight2.png").getImage(); //player img
+    Image fish_c = new ImageIcon("scr/resources/straight2.png").getImage(); //player img
+    Image up = new ImageIcon("scr/resources/up1.png").getImage();//player img up
+    Image down = new ImageIcon("scr/resources/down1.png").getImage();//player img down
+    Image fish = fish_c;
     int v=0;
     int dv=0;
     int s=0;
@@ -49,8 +52,8 @@ public class Player  {
             case(KeyEvent.VK_RIGHT): dv=1;break;
             case(KeyEvent.VK_LEFT): dv=-1;break;
             default: dv=0;
-            case(KeyEvent.VK_UP): dy=5;break;
-            case(KeyEvent.VK_DOWN): dy=-5;break;
+            case(KeyEvent.VK_UP): dy=5;fish = up;break;
+            case(KeyEvent.VK_DOWN): dy=-5;fish = down;break;
         }}
     public void keyReleased(KeyEvent e){ //reactions on released but
         int key = e.getKeyCode();
@@ -58,8 +61,9 @@ public class Player  {
             case(KeyEvent.VK_RIGHT  ): dv=0;break;
             case(KeyEvent.VK_LEFT): dv =0;break;
 
-            case(KeyEvent.VK_UP): dy=0;break;
-            case(KeyEvent.VK_DOWN): dy=0;break;
+            case(KeyEvent.VK_UP):
+            case(KeyEvent.VK_DOWN):
+                dy=0;fish = fish_c;break;
             default: dv=0;
         }
     }
