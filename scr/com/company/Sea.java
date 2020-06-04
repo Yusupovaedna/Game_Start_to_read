@@ -28,17 +28,20 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     Timer time = new Timer(20, this);
     Image img = new ImageIcon("scr/resources/sea.png").getImage();//screen
     Image area = new ImageIcon("scr/resources/area.png").getImage();//area for task
-
+    Image icon1 = new ImageIcon("scr/resources/icon.mpo").getImage();
+    Image ico = icon1.getScaledInstance(50, 30, Image.SCALE_SMOOTH ) ;
+    ImageIcon icon = new ImageIcon(ico);
     Player f= new Player();
 
     int j=0;
 
     Thread Circlemaker = new Thread(this);// Thread for making circles
     List<Circle> circles = new ArrayList<Circle>();//list with circles for letters
-
+    String wordSet="11";
     String word = Text().replaceAll("[\\p{P}\\p{Blank}]","");
-    String word2 = Text().replaceAll("[\\p{P}\\p{Blank}]","");
-    char[] chars = word.replaceAll("[\\p{P}\\p{Blank} ]","").toCharArray();
+    String word2 ="11";
+    char[] chars = {};
+
     Random rand  =new Random();
     int r=0;
     String t="";
@@ -50,8 +53,23 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         addKeyListener(new myKeyAdapter());
         setFocusable(true);
         play("scr/resources/sound.wav");
+        Object[] possibleValues = { "Play", "Input words" };
+        Object selectedValue = JOptionPane.showInputDialog(null,
+                "Choose option", "Input",
+                JOptionPane.INFORMATION_MESSAGE, icon,
+                possibleValues, possibleValues[0]);
+        if(selectedValue=="Play"){ this.wordSet = word;}
+        else{
+            this.wordSet = (String) JOptionPane.showInputDialog(null, "Word");
+        }
+
+        this.word2 = wordSet.replaceAll("[\\p{P}\\p{Blank}]","");
+        chars = wordSet.replaceAll("[\\p{P}\\p{Blank} ]","").toCharArray();
+
 
     }
+
+
     Color darkblue = new Color(00, 00, 33);
 
     public void paint(Graphics g) {
@@ -67,7 +85,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         g.setFont(font1);
         g.setColor(darkblue);
         String write = t;
-        ((Graphics2D) g).drawString(t, 480,660);
+        ((Graphics2D) g).drawString(t, 480,640);
 
         while(i.hasNext()){
             Circle k = i.next();
@@ -132,7 +150,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
                     t+=c.letter;
                     word2 = word2.substring(1);
                     i.remove();
-                    if (t.length()>=word.length()) {
+                    if (t.length()>= wordSet.length()) {
                         play("scr/resources/win.wav");
                         JOptionPane.showMessageDialog(null, "You won!!!");
                         System.exit(1);
@@ -164,11 +182,10 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     }
 
 
-    //    String let = word.substring(r, r+1);
 
     public void run() {   //circle generator
 
-        while(word.length() > r) {
+        while(wordSet.length() > r) {
             try { Thread.sleep(6000);
                 char k = chars[r];
                 char b = (char)(rand.nextInt(26) + 'a');
