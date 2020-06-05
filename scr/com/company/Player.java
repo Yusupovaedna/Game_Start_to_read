@@ -1,8 +1,11 @@
 package com.company;
 
+import org.w3c.dom.Text;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 
 public class Player  {
@@ -28,6 +31,8 @@ public class Player  {
 
     int  sea1=0;
     int sea2=1490;
+    Object[] possibleValues = { "Play", "Input words" };
+    Sea se;
 
     public void move(){  //moving of the player
         s+=v;
@@ -51,19 +56,20 @@ public class Player  {
         switch (key){
             case(KeyEvent.VK_RIGHT): dv=1;break;
             case(KeyEvent.VK_LEFT): dv=-1;break;
-            default: dv=0;
+
             case(KeyEvent.VK_UP): dy=5;fish = up;break;
             case(KeyEvent.VK_DOWN): dy=-5;fish = down;break;
+
+            default: dv=0;
         }}
     public void keyReleased(KeyEvent e){ //reactions on released but
         int key = e.getKeyCode();
         switch (key){
-            case(KeyEvent.VK_RIGHT  ): dv=0;break;
-            case(KeyEvent.VK_LEFT): dv =0;break;
 
             case(KeyEvent.VK_UP):
             case(KeyEvent.VK_DOWN):
                 dy=0;fish = fish_c;break;
+
             default: dv=0;
         }
     }

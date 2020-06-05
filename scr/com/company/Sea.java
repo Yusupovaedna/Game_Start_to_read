@@ -27,22 +27,20 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     Timer time = new Timer(20, this);
     Image img = new ImageIcon("scr/resources/sea.png").getImage();//screen
     Image area = new ImageIcon("scr/resources/area.png").getImage();//area for task
-    Image icon1 = new ImageIcon("scr/resources/icon.mpo").getImage();
-    Image ico = icon1.getScaledInstance(50, 30, Image.SCALE_SMOOTH ) ;
+    Image ico = new ImageIcon("scr/resources/icon2.png").getImage();
     ImageIcon icon = new ImageIcon(ico);
     Player f= new Player();
 
 
 
-
-    int j=0;
-
     Thread Circlemaker = new Thread(this);// Thread for making circles
-    List<Circle> circles = new ArrayList<Circle>();//list with circles for letters
-    String wordSet="11345";
+    List<Circle> circles = new ArrayList<>();//list with circles for letters
+
     String word = Text().replaceAll("[\\p{P}\\p{Blank}]","");
-    String word2 ="11";
-    char[] chars = {' '};
+    String wordSet ;
+    String word2 ;
+    char[] chars ;
+
 
 
     Random rand  =new Random();
@@ -50,13 +48,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     String t="";
 
 
-    public Sea() throws IOException, FontFormatException { // constructor
-        time.start();
-        Circlemaker.start();
-        addKeyListener(new myKeyAdapter());
-        setFocusable(true);
-       // play("scr/resources/sound.wav");
-
+    public Sea() throws IOException { // constructor
         Object[] possibleValues = { "Play", "Input words" };
         Object selectedValue = JOptionPane.showInputDialog(null,
                 "Choose option", "Words:",
@@ -64,10 +56,22 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
                 possibleValues, possibleValues[0]);
         if(selectedValue=="Play"){ this.wordSet = word;}
         else{
-            this.wordSet = (String) JOptionPane.showInputDialog(null, "Word");
+            this.wordSet = JOptionPane.showInputDialog(null, "Word");
         }
         this.word2 = wordSet.replaceAll("[\\p{P}\\p{Blank}]","");
         chars = wordSet.replaceAll("[\\p{P}\\p{Blank} ]","").toCharArray();
+
+        JOptionPane.showMessageDialog(null, "Use UP, DOWN to move a fish \n" +
+                " Use LEFT(<-), RIGHT(->) to change speed" );
+
+        time.start();
+        Circlemaker.start();
+        addKeyListener(new myKeyAdapter());
+        setFocusable(true);
+        play("scr/resources/sound.wav");
+
+
+
 
 
         new TextToSpeech("Find" + word2.substring(0,1)+"e");
@@ -75,11 +79,9 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     }
 
 
-    Color darkblue = new Color(00, 00, 33);
+    Color darkblue = new Color(0, 0, 33);
 
     public void paint(Graphics g) {
-        g = (Graphics2D) g;
-
         g.drawImage(img, f.sea1, 0, null);//screen 1
         g.drawImage(img, f.sea2, 0, null);//screen 1
         g.drawImage(f.fish, f.x, f.y, null); //player
@@ -132,6 +134,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
             f.keyPressed(e);
         }
 
+
         public void keyReleased(KeyEvent e){
             f.keyReleased(e);
         }
@@ -140,45 +143,40 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     public void actionPerformed(ActionEvent e) { //moving of the background
         f.move();
         repaint();
-        Iterator<Circle> i = circles.iterator();
-        while(i.hasNext()){ //circles movement
-            Circle k = i.next();
-        k.move();}
-        try {
-            testCollisionWithCircles();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+
+        for (Circle k : circles) { //circles movement
+            k.move();
         }
+        testCollisionWithCircles();
     }
     int s=0;
-    private void testCollisionWithCircles() throws IOException {
-        Iterator<Circle> i = circles.iterator();
-        while(i.hasNext()){
-            Circle c= i.next();
+    private void testCollisionWithCircles() {
+        Iterator<Circle> inter = circles.listIterator();
+        while(inter.hasNext()){
+            Circle c= inter.next();
             if(f.getRect().intersects(c.getRect())){
                 if (word2.substring(0, 1).contains(c.letter)) {
                     s=+1;
-                    t+=c.letter;
+                    t += c.letter;
                     word2 = word2.substring(1);
-                    i.remove();
+                    inter.remove();
                     if (t.length()>= wordSet.length()) {
                         play("scr/resources/win.wav");
                         JOptionPane.showMessageDialog(null, "Well done!!!");
                         System.exit(1);
                     }
-                    new TextToSpeech("Find"+word2.substring(0,1));
-
-
+                    System.out.println(word2.substring(0,1));
+                    new TextToSpeech("Find"+word2.substring(0,1)+word2.substring(0,1));
                 }
+
                 else{
                     play("scr/resources/fail.wav");
                     JOptionPane.showMessageDialog(null, "You failed("+"\n"
                             +"Correct letter is "+word2.substring(0, 1));
                     System.exit(1);
                 }
-
             }
-            if (f.x+280 > c.x) i.remove();
+            if (f.x+280 > c.x) inter.remove();
 
         }
 
@@ -201,7 +199,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
         while(wordSet.length() > r)
         {
-            try { Thread.sleep(6000);
+            try { Thread.sleep(8000);
                 System.out.println(chars);
                 System.out.println(chars[r]);
 

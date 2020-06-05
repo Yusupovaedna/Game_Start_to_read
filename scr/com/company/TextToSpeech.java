@@ -1,8 +1,6 @@
 package  com.company;
-import com.sun.speech.engine.synthesis.VoiceList;
 import com.sun.speech.freetts.*;
 
-import java.io.IOException;
 
 public class TextToSpeech {
     //String voiceName = "kevin16";
