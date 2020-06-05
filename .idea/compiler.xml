@@ -9,7 +9,7 @@
         <module name="start-to-read-in-english" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="11">
       <module name="start-to-read-in-english" target="11" />
     </bytecodeTargetLevel>
   </component>

@@ -10,18 +10,17 @@ import java.awt.event.KeyEvent;
 
 import java.io.IOException;
 
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-
-import java.util.Iterator;
-
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import java.io.*;
+import java.util.List;
 import javax.sound.sampled.*;
+import javax.swing.Timer;
+
 
 
 public class Sea extends JPanel implements  ActionListener,Runnable {
@@ -33,14 +32,18 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     ImageIcon icon = new ImageIcon(ico);
     Player f= new Player();
 
+
+
+
     int j=0;
 
     Thread Circlemaker = new Thread(this);// Thread for making circles
     List<Circle> circles = new ArrayList<Circle>();//list with circles for letters
-    String wordSet="11";
+    String wordSet="11345";
     String word = Text().replaceAll("[\\p{P}\\p{Blank}]","");
     String word2 ="11";
-    char[] chars = {};
+    char[] chars = {' '};
+
 
     Random rand  =new Random();
     int r=0;
@@ -52,20 +55,22 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         Circlemaker.start();
         addKeyListener(new myKeyAdapter());
         setFocusable(true);
-        play("scr/resources/sound.wav");
+       // play("scr/resources/sound.wav");
+
         Object[] possibleValues = { "Play", "Input words" };
         Object selectedValue = JOptionPane.showInputDialog(null,
-                "Choose option", "Input",
+                "Choose option", "Words:",
                 JOptionPane.INFORMATION_MESSAGE, icon,
                 possibleValues, possibleValues[0]);
         if(selectedValue=="Play"){ this.wordSet = word;}
         else{
             this.wordSet = (String) JOptionPane.showInputDialog(null, "Word");
         }
-
         this.word2 = wordSet.replaceAll("[\\p{P}\\p{Blank}]","");
         chars = wordSet.replaceAll("[\\p{P}\\p{Blank} ]","").toCharArray();
 
+
+        new TextToSpeech("Find" + word2.substring(0,1)+"e");
 
     }
 
@@ -84,8 +89,9 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         Font font1 = new Font("Arial", Font.BOLD, 80);
         g.setFont(font1);
         g.setColor(darkblue);
-        String write = t;
-        ((Graphics2D) g).drawString(t, 480,640);
+        g.drawString(t, 480,650);
+
+
 
         while(i.hasNext()){
             Circle k = i.next();
@@ -113,6 +119,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
                     Clip clip = AudioSystem.getClip();
                     clip.open(AudioSystem.getAudioInputStream(new File(filename)));
                     clip.start();
+
                 }
                 catch (Exception exc)
                 {
@@ -137,10 +144,14 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         while(i.hasNext()){ //circles movement
             Circle k = i.next();
         k.move();}
-        testCollisionWithCircles();
+        try {
+            testCollisionWithCircles();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     int s=0;
-    private void testCollisionWithCircles() {
+    private void testCollisionWithCircles() throws IOException {
         Iterator<Circle> i = circles.iterator();
         while(i.hasNext()){
             Circle c= i.next();
@@ -152,9 +163,12 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
                     i.remove();
                     if (t.length()>= wordSet.length()) {
                         play("scr/resources/win.wav");
-                        JOptionPane.showMessageDialog(null, "You won!!!");
+                        JOptionPane.showMessageDialog(null, "Well done!!!");
                         System.exit(1);
                     }
+                    new TextToSpeech("Find"+word2.substring(0,1));
+
+
                 }
                 else{
                     play("scr/resources/fail.wav");
@@ -185,8 +199,12 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
     public void run() {   //circle generator
 
-        while(wordSet.length() > r) {
+        while(wordSet.length() > r)
+        {
             try { Thread.sleep(6000);
+                System.out.println(chars);
+                System.out.println(chars[r]);
+
                 char k = chars[r];
                 char b = (char)(rand.nextInt(26) + 'a');
                 if (b == k)  b = (char)(rand.nextInt(26) + 'a');
@@ -227,5 +245,6 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         }
 
         }
+
 }
 

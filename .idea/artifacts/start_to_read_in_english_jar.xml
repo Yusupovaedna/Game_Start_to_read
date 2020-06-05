@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="start-to-read-in-english:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/start_to_read_in_english_jar</output-path>
+    <root id="archive" name="start-to-read-in-english.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="C:/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="start-to-read-in-english" />
+    </root>
+  </artifact>
+</component>

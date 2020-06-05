@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="start-to-read-in-english">
+    <output-path>$PROJECT_DIR$/out/artifacts/start_to_read_in_english</output-path>
+    <root id="root">
+      <element id="archive" name="start_to_read_in_english.jar">
+        <element id="module-output" name="start-to-read-in-english" />
+      </element>
+    </root>
+  </artifact>
+</component>
