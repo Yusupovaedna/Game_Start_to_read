@@ -36,10 +36,13 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
     Thread Circlemaker = new Thread(this);// Thread for making circles
     List<Circle> circles = new ArrayList<>();//list with circles for letters
 
-    String word = Text().replaceAll("[\\p{P}\\p{Blank}]","");
+    String word = Text();
     String wordSet ;
     String word2 ;
     char[] chars ;
+    String[] w;
+    int[] wordLengths = new int[30];
+    int totalLength=0;
 
 
 
@@ -49,6 +52,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
 
     public Sea() throws IOException { // constructor
+
         Object[] possibleValues = { "Play", "Input words" };
         Object selectedValue = JOptionPane.showInputDialog(null,
                 "Choose option", "Words:",
@@ -60,9 +64,16 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         }
         this.word2 = wordSet.replaceAll("[\\p{P}\\p{Blank}]","");
         chars = wordSet.replaceAll("[\\p{P}\\p{Blank} ]","").toCharArray();
-
+        System.out.println(wordSet);
+        this.w = wordSet.split("[\\p{Blank}\\p{P}]");
+        System.out.println(w[0]);
+        for (int i=0;i<w.length;i++){
+            this.wordLengths[i]=w[i].length();
+            totalLength+=w[i].length();
+        }
         JOptionPane.showMessageDialog(null, "Use UP, DOWN to move a fish \n" +
-                " Use LEFT(<-), RIGHT(->) to change speed" );
+                " Use LEFT(<-), RIGHT(->) to change speed"+
+                        "\nYour aim is to make a word from letters,that you hear" );
 
         time.start();
         Circlemaker.start();
@@ -70,11 +81,8 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         setFocusable(true);
         play("scr/resources/sound.wav");
 
+        play("scr/resources/letters/"+word2.substring(0,1).toLowerCase()+".wav");
 
-
-
-
-        new TextToSpeech("Find" + word2.substring(0,1)+"e");
 
     }
 
@@ -150,29 +158,35 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
         testCollisionWithCircles();
     }
     int s=0;
+    int i=0;
+    int j=0;
     private void testCollisionWithCircles() {
         Iterator<Circle> inter = circles.listIterator();
         while(inter.hasNext()){
             Circle c= inter.next();
             if(f.getRect().intersects(c.getRect())){
                 if (word2.substring(0, 1).contains(c.letter)) {
-                    s=+1;
+                    if(wordLengths[i]<= s) {
+                        t="";s=0;i++;}
                     t += c.letter;
                     word2 = word2.substring(1);
+                    s++;
+                    j++;
                     inter.remove();
-                    if (t.length()>= wordSet.length()) {
+                    if (j>= totalLength) {
                         play("scr/resources/win.wav");
                         JOptionPane.showMessageDialog(null, "Well done!!!");
+
                         System.exit(1);
                     }
-                    System.out.println(word2.substring(0,1));
-                    new TextToSpeech("Find"+word2.substring(0,1)+word2.substring(0,1));
+                    play("scr/resources/letters/"+word2.substring(0,1).toLowerCase()+".wav");
                 }
 
                 else{
                     play("scr/resources/fail.wav");
                     JOptionPane.showMessageDialog(null, "You failed("+"\n"
                             +"Correct letter is "+word2.substring(0, 1));
+
                     System.exit(1);
                 }
             }
@@ -188,8 +202,7 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
     public String Text() throws IOException {
         List<String> list = Files.readAllLines(Paths.get("scr/resources/word"), StandardCharsets.UTF_8);
-        this.str=list.toString().replaceAll(",", "");
-       System.out.println(str);
+        this.str=list.toString();
         return this.str;
     }
 
@@ -197,11 +210,9 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
 
     public void run() {   //circle generator
 
-        while(wordSet.length() > r)
+        while(totalLength > r)
         {
             try { Thread.sleep(8000);
-                System.out.println(chars);
-                System.out.println(chars[r]);
 
                 char k = chars[r];
                 char b = (char)(rand.nextInt(26) + 'a');

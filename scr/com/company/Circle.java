@@ -13,6 +13,7 @@ public class Circle {
     Sea sea;
 
 
+
     public Rectangle getRect (){
         return new Rectangle(x,y,150,150 );
     }
@@ -23,6 +24,7 @@ public class Circle {
         this.v=v;
         this.sea = sea;
         this.letter = letter;
+
     }
     public void move(){
         x=x-sea.f.v+v;
