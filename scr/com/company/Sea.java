@@ -24,7 +24,7 @@ import javax.swing.Timer;
 
 
 public class Sea extends JPanel implements  ActionListener,Runnable {
-    Timer time = new Timer(20, this);
+    Timer time = new Timer(40, this);
     Image img = new ImageIcon("scr/resources/sea.png").getImage();//screen
     Image area = new ImageIcon("scr/resources/area.png").getImage();//area for task
     Image ico = new ImageIcon("scr/resources/icon2.png").getImage();
@@ -222,24 +222,24 @@ public class Sea extends JPanel implements  ActionListener,Runnable {
                 String a3=String.valueOf( b);
                 String a0=String.valueOf( c);
                 if (r%2==0) {
-                    circles.add(new Circle(1400, 20, 6, this, String.valueOf(k)));
-                    circles.add(new Circle(1400, 220, 6, this,a3));
-                    circles.add(new Circle(1400, 420, 6, this,a0));
+                    circles.add(new Circle(1400, 20, 8, this, String.valueOf(k)));
+                    circles.add(new Circle(1400, 220, 8, this,a3));
+                    circles.add(new Circle(1400, 420, 8, this,a0));
 
                 }
                 else
                 {
                     if (r%3==0)
                     {
-                        circles.add(new Circle(1400, 20, 6, this,a3));
-                        circles.add(new Circle(1400, 220, 6, this,String.valueOf(k)));
-                        circles.add(new Circle(1400, 420, 6, this,a0));
+                        circles.add(new Circle(1400, 20, 8, this,a3));
+                        circles.add(new Circle(1400, 220, 8, this,String.valueOf(k)));
+                        circles.add(new Circle(1400, 420, 8, this,a0));
                     }
                     else
                         {
-                            circles.add(new Circle(1400, 20, 6, this,a0));
-                            circles.add(new Circle(1400, 220, 6, this,a3));
-                            circles.add(new Circle(1400, 420, 6,
+                            circles.add(new Circle(1400, 20, 8, this,a0));
+                            circles.add(new Circle(1400, 220, 8, this,a3));
+                            circles.add(new Circle(1400, 420, 8,
                             this,String.valueOf(k)));
                         }
                 }

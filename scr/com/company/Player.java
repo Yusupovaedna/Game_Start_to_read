@@ -1,15 +1,12 @@
 package com.company;
 
-import org.w3c.dom.Text;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 
 public class Player  {
-    public static final int MAX_V =12;
+    public static final int MAX_V =14;
     public static final int MAX_TOP =0;
     public static final int MAX_BOTTOM =400;
 
@@ -31,14 +28,13 @@ public class Player  {
 
     int  sea1=0;
     int sea2=1490;
-    Object[] possibleValues = { "Play", "Input words" };
-    Sea se;
+
 
     public void move(){  //moving of the player
         s+=v;
         v+=dv;
         if (v>=MAX_V) v=MAX_V;
-        if (v<=7) v=7;
+        if (v<=9) v=9;
         y-=dy;
         if(y <= MAX_TOP)  y=MAX_TOP;
         if(y >= MAX_BOTTOM) y=MAX_BOTTOM;
